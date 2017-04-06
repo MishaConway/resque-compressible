@@ -13,7 +13,7 @@ module Resque
       end
 
       def compressed? args
-        args.size > 0 && args.first.kind_of?(Hash) && (args.first[:resque_compressed] || args.first['compressed'])
+        args.size > 0 && args.first.kind_of?(Hash) && (args.first[:resque_compressed] || args.first['resque_compressed'])
       end
 
       def perform_with_compressing *args
