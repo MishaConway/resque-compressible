@@ -14,11 +14,11 @@ module Resque
         1 == args.size && args.first.kind_of?(Hash) && (args.first[:compressed] || args.first['compressed'])
       end
 
-      def perform args
+      def perform_with_compressing args
         if compressed? args
-          perform_ex *uncompressed_args(args.first[:payload] || args.first['payload'])
+          perform_without_compressing *uncompressed_args(args.first[:payload] || args.first['payload'])
         else
-          peform_ex *args
+          perform_without_compressing *args
         end
       end
 
@@ -29,6 +29,10 @@ module Resque
       def uncompressed_args data
         JSON.parse Zlib::Inflate.inflate(Base64.decode64(data))
       end
+
+      alias_method :perform_without_compressing, :perform
+      alias_method :perform, :perform_with_compressing
+
     end
   end
 end
