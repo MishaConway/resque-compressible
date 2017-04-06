@@ -4,7 +4,7 @@ module Resque
       VERSION = "0.0.1"
 
       def before_enqueue_compressible *args
-        unless compressed?
+        unless compressed? args
           Resque.enqueue self, {:compressed => true, :payload => compressed_args(args)}
           false
         end
