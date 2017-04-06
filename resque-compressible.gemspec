@@ -5,7 +5,7 @@ require 'resque/plugins/compressible'
 
 Gem::Specification.new do |spec|
   spec.name          = "resque-compressible"
-  spec.version       = Resque::Compressible::VERSION
+  spec.version       = Resque::Plugins::Compressible::VERSION
   spec.authors       = ["Misha Conway"]
   spec.email         = ["mishaAconway@gmail.com"]
 
