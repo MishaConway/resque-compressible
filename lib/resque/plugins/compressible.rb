@@ -30,9 +30,12 @@ module Resque
         JSON.parse Zlib::Inflate.inflate(Base64.decode64(data))
       end
 
-      alias_method :perform_without_compressing, :perform
-      alias_method :perform, :perform_with_compressing
-
+      def self.included(base)
+        base.class_eval do
+          alias_method :perform_without_compressing, :perform
+          alias_method :perform, :perform_with_compressing
+        end
+      end
     end
   end
 end
