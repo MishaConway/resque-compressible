@@ -14,7 +14,7 @@ module Resque
         1 == args.size && args.first.kind_of?(Hash) && (args.first[:compressed] || args.first['compressed'])
       end
 
-      def perform_with_compressing args
+      def perform_with_compressing *args
         if compressed? args
           perform_without_compressing *uncompressed_args(args.first[:payload] || args.first['payload'])
         else
