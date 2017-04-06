@@ -16,7 +16,7 @@ module Resque
 
       def perform args
         if compressed? args
-          perform_ex *uncompressed_args(args)
+          perform_ex *uncompressed_args(args.first[:payload] || args.first['payload'])
         else
           peform_ex *args
         end
