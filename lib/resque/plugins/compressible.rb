@@ -5,18 +5,15 @@ module Resque
 
       def before_enqueue_compressible *args
         unless compressed? args
-          Resque.enqueue self, {:compressed => true, :payload => compressed_args(args)}
+          new_args = [{:resque_compressed => true, :payload => compressed_args(args)}]
+          new_args.push 0 while new_args.size < args.size
+          Resque.enqueue self, *new_args
           false
         end
       end
 
-      def before_perform_compressible *args
-        perform_with_compressing *args
-        raise Resque::Job::DontPerform
-      end
-
       def compressed? args
-        1 == args.size && args.first.kind_of?(Hash) && (args.first[:compressed] || args.first['compressed'])
+        args.size > 0 && args.first.kind_of?(Hash) && (args.first[:resque_compressed] || args.first['compressed'])
       end
 
       def perform_with_compressing *args
