@@ -10,6 +10,11 @@ module Resque
         end
       end
 
+      def before_perform_compressible *args
+        perform_with_compressing *args
+        raise Resque::Job::DontPerform
+      end
+
       def compressed? args
         1 == args.size && args.first.kind_of?(Hash) && (args.first[:compressed] || args.first['compressed'])
       end
