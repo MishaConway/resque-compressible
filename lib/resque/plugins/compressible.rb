@@ -34,10 +34,14 @@ module Resque
 
       def self.included(base)
         base.class_eval do
-          alias_method :perform_without_compressing, :perform
-          alias_method :perform, :perform_with_compressing
+          #alias_method :perform_without_compressing, :perform
+          #alias_method :perform, :perform_with_compressing
+
+          alias_method :perform, :perform_without_compressing
+          alias_method :perform_with_compressing, :perform
         end
       end
     end
   end
 end
+
