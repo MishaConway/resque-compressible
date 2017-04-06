@@ -34,7 +34,6 @@ module Resque
 
       def self.extended(base)
         class << base
-        #base.class_eval do
           alias_method :perform_without_compressing, :perform
           alias_method :perform, :perform_with_compressing
         end
